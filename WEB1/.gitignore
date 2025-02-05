@@ -9,7 +9,7 @@
 .DS_Store
 /target/
 *.iml
-.idea
+/.idea/
 *.jar
 .vscode/
 *.toml
