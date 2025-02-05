@@ -15,4 +15,5 @@
 /gradle/
 /build/
 /.gradle/
+WEB1/app/build/
 gradlew.bat
