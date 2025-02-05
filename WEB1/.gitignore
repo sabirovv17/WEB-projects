@@ -12,7 +12,6 @@
 /.idea/
 *.jar
 *.toml
-*.bat
 /gradle/
 /build/
 /.gradle/
