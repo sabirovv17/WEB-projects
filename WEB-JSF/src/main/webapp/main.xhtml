@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Проверка попадания точки</title>
+    <link rel="stylesheet" href="templates/main.css"/>
+</h:head>
+<h:body>
+    <h:form class="container">
+        <h:commandButton value="Назад" action="Index" style="
+        background-color: #2C2F33;
+        color: #e0e0e0;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        margin-left: 0px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;"/>
+        <section class="block plot-section">
+            <div class="graph">
+                <svg height="300" width="300" xmlns="http://www.w3.org/2000/svg" id="graph-svg">
+                    <line stroke="gray" x1="0" x2="300" y1="150" y2="150"></line>
+                    <line stroke="gray" x1="150" x2="150" y1="0" y2="300"></line>
+                    <polygon fill="white" points="150,0 144,15 156,15" stroke="white"></polygon>
+                    <polygon fill="white" points="300,150 285,156 285,144" stroke="white"></polygon>
+
+                    <line stroke="gray" x1="200" x2="200" y1="155" y2="145"></line>
+                    <line stroke="gray" x1="250" x2="250" y1="155" y2="145"></line>
+
+                    <line stroke="gray" x1="50" x2="50" y1="155" y2="145"></line>
+                    <line stroke="gray" x1="100" x2="100" y1="155" y2="145"></line>
+
+                    <line stroke="gray" x1="145" x2="155" y1="100" y2="100"></line>
+                    <line stroke="gray" x1="145" x2="155" y1="50" y2="50"></line>
+
+                    <line stroke="gray" x1="145" x2="155" y1="200" y2="200"></line>
+                    <line stroke="gray" x1="145" x2="155" y1="250" y2="250"></line>
+
+                    <text fill="white" x="195" y="140">R/2</text>
+                    <text fill="white" x="248" y="140">R</text>
+
+                    <text fill="white" x="40" y="140">-R</text>
+                    <text fill="white" x="90" y="140">-R/2</text>
+
+                    <text fill="white" x="160" y="105">R/2</text>
+                    <text fill="white" x="160" y="55">R</text>
+
+                    <text fill="white" x="160" y="205">-R/2</text>
+                    <text fill="white" x="160" y="255">-R</text>
+
+                    <text fill="white" x="160" y="10">Y</text>
+                    <text fill="white" x="290" y="140">X</text>
+
+                    <!-- Прямоугольник -->
+                    <rect x="150" y="50" width="100" height="100" fill="#0000FF" fill-opacity="0.2"
+                          stroke="#0000FF"></rect>
+
+                    <!-- Треугольник -->
+                    <polygon fill="#0000FF" fill-opacity="0.2" points="150,200 150,150 250,150"
+                             stroke="#0000FF"></polygon>
+
+                    <svg width="300" height="300">
+                        <path d="M 100 150
+                                A 100, 100, 0, 0, 1, 150, 100
+                                L 150, 150
+                                Z"
+                              fill-opacity="0.2"
+                              fill="#0000FF"
+                              stroke="#0000FF"></path>
+                    </svg>
+                </svg>
+            </div>
+        </section>
+        <h1>Проверка размещения точки</h1>
+
+        <div>
+            <div>
+                <h:outputLabel for="xInput" value="X: "/>
+            </div>
+            <h:selectOneMenu id="xInput" onchange="updateX(this.value)" styleClass="input-field">
+                <f:selectItem itemValue="-2" itemLabel="-2"/>
+                <f:selectItem itemValue="-1.5" itemLabel="-1.5"/>
+                <f:selectItem itemValue="-1" itemLabel="-1"/>
+                <f:selectItem itemValue="-0.5" itemLabel="-0.5"/>
+                <f:selectItem itemValue="0" itemLabel="0"/>
+                <f:selectItem itemValue="0.5" itemLabel="0.5"/>
+                <f:selectItem itemValue="1" itemLabel="1"/>
+                <f:selectItem itemValue="1.5" itemLabel="1.5"/>
+                <f:selectItem itemValue="2" itemLabel="2"/>
+            </h:selectOneMenu>
+        </div>
+
+
+        <div>
+            <div>
+                <h:outputLabel for="yInput" value="Y: "/>
+            </div>
+            <h:inputText id="yInput" onchange="updateY(this.value)" styleClass="input-field"/>
+        </div>
+
+        <div>
+            <div>
+                <h:outputLabel for="rInput" value="R: "/>
+            </div>
+            <h:selectOneMenu id="rInput" onchange="updateR(this.value)" styleClass="input-field">
+                <f:selectItem itemValue="1" itemLabel="1"/>
+                <f:selectItem itemValue="1.5" itemLabel="1.5"/>
+                <f:selectItem itemValue="2" itemLabel="2"/>
+                <f:selectItem itemValue="2.5" itemLabel="2.5"/>
+                <f:selectItem itemValue="3" itemLabel="3"/>
+            </h:selectOneMenu>
+        </div>
+        <h:commandButton id="checkButton" value="Проверить" styleClass="button">
+            <f:ajax execute="@form"
+                    listener="#{checkPointBean.check(pointBean)}"
+                    render="resultsTable"/>
+        </h:commandButton>
+        <br/>
+
+        <p:dataTable id="resultsTable" value="#{checkPointBean.results}" var="result" styleClass="data-table"
+                     paginator="true" rows="10"
+                     paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink}">
+            <p:column headerText="X">
+                #{result.x}
+            </p:column>
+            <p:column headerText="Y">
+                #{result.y}
+            </p:column>
+            <p:column headerText="R">
+                #{result.r}
+            </p:column>
+            <p:column headerText="СТАТУС">
+                #{result.isHit}
+            </p:column>
+            <p:column headerText="ВРЕМЯ ВЫПОЛНЕНИЯ">
+                #{result.execution_time}
+            </p:column>
+            <p:column headerText="ВРЕМЯ НА СЕРВЕРЕ">
+                #{result.server_time}
+            </p:column>
+        </p:dataTable>
+
+        <h:inputHidden id="xH" value="#{pointBean.x}"/>
+        <h:inputHidden id="yH" value="#{pointBean.y}"/>
+        <h:inputHidden id="rH" value="#{pointBean.r}"/>
+    </h:form>
+    <script type="text/javascript">
+        let lastR = 1
+        function updateX(x) {
+            document.getElementById("j_idt5:xH").value = x
+        }
+
+        function updateY(y) {
+            const parsedY = parseFloat(y);
+            if (isNaN(parsedY) || parsedY &lt; -3 || parsedY > 5) {
+                document.getElementById("j_idt5:yInput").value = "";
+            } else {
+                document.getElementById("j_idt5:yH").value = y;
+            }
+        }
+
+        function updateR(r) {
+            document.getElementById("j_idt5:rH").value = r
+        }
+
+        updateR(1)
+
+        document.getElementById('graph-svg').addEventListener('click', function (event) {
+            const svgElement = document.getElementById('graph-svg');
+            // Получаем координаты клика относительно SVG
+            const rect = svgElement.getBoundingClientRect();
+            const xGraph = event.clientX - rect.left;
+            const yGraph = event.clientY - rect.top;
+            const r = document.getElementById("j_idt5:rInput").value;
+
+            // Отображаем координаты
+            const x = ((xGraph - 150) / 100 * r).toFixed(2);
+            const y = ((yGraph - 150) / 100 * -1 * r).toFixed(2);
+
+            document.getElementById("j_idt5:xH").value = x
+            document.getElementById("j_idt5:yH").value = y
+            document.getElementById("j_idt5:checkButton").click()
+        });
+
+        function unShowBottomPaginator() {
+            document.getElementById("j_idt5:resultsTable_paginator_bottom").style.display = "none"
+        }
+        unShowBottomPaginator()
+
+        function draw(x, y, r, answer) {
+            const svgElement = document.getElementById('graph-svg');
+            const circleElement = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circleElement.setAttribute("cx", (parseFloat(x) / parseFloat(r) * 100 + 150).toFixed(2));
+            circleElement.setAttribute("cy", (parseFloat(y) / parseFloat(r) * 100 * -1 + 150).toFixed(2));
+            circleElement.setAttribute("r", "3");
+            circleElement.setAttribute("fill", answer ? "#85da72" : "#e5080c");
+            svgElement.appendChild(circleElement);
+            unShowBottomPaginator()
+        }
+
+        function clear() {
+            const svgElement = document.getElementById('graph-svg');
+            const circles = Array.from(svgElement.getElementsByTagName('circle'));
+            circles.forEach(circle => {
+                svgElement.removeChild(circle);
+            });
+        }
+    </script>
+</h:body>
+</html>

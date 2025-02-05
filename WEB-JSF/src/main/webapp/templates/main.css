@@ -1,0 +1,87 @@
+/* Основные стили для body */
+body {
+    background-color: #0D0D0D;
+    color: #00BFFF;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Стили для секции с графиком */
+.plot-section {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #1A1A1A;
+    box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Стили для заголовков */
+h1 {
+    text-align: center;
+    color: #00BFFF;
+    text-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
+}
+
+/* Стили для форм */
+.form-container {
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #1A1A1A;
+    box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Стили для инпутов */
+.input-field {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #00BFFF;
+    border-radius: 5px;
+    background-color: #2A2A2A;
+    color: #EAEAEA;
+}
+
+/* Стили для кнопок */
+.button {
+    align-items: center;
+    background-color: #00BFFF;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #007FFF;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Стили для таблицы результатов */
+.data-table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #1A1A1A;
+    color: #EAEAEA;
+}
+
+.data-table th {
+    background-color: #00BFFF;
+    color: black;
+}
+
+.data-table td {
+    background-color: #1A1A1A;
+    color: #EAEAEA;
+}
+
+/* Стили для пагинации */
+#resultsTable_paginator_top {
+    background-color: #1A1A1A;
+    color: #EAEAEA;
+}
